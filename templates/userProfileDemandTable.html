@@ -1,0 +1,55 @@
+<!-- <div id="userProfileDemandTableAncor" class="container"></div> -->
+
+<div id="userProfileDemandTable">
+    <h3 class="mb-4">
+        <i class="inconsUP fas fa-paper-plane fa-lg"></i>
+        Vos demandes
+    </h3>
+
+    <div class="d-flex justify-content-center">
+        <table class="table table-hover shadow" id="demandList">
+            <thead class="thead-dark text-center">
+                <th scope="col">Type de demande</th>
+                <th scope="col">Nom du/de la chien.ne</th>
+                <th scope="col">Date de la demande</th>
+                <th scope="col">Actions</th>
+            </thead>
+
+            <tbody>
+                {% for demand in demands %}
+                <tr>
+                    <td id="id_demand_{{demand.id}}" class="text-center demandDogDetails"
+                            data-toggle="modal" data-target="#detailsModal"
+                            onclick="showDogDetails('{{demand.dog.idDog}}');">
+                        {% if demand.demandType == 'hosting' %}
+                            accueil
+                        {% else %}
+                            {{demand.demandType}}
+                        {% endif %}
+                    </td>
+                    <td id="id_demand_{{demand.id}}" class="text-center demandDogDetails"
+                            data-toggle="modal" data-target="#detailsModal"
+                            onclick="showDogDetails('{{demand.dog.idDog}}');">
+                        {{demand.dog.get_name}}
+                    </td>
+                    <td  id="id_demand_{{demand.id}}" class="text-center demandDogDetails"
+                            data-toggle="modal" data-target="#detailsModal"
+                            onclick="showDogDetails('{{demand.dog.idDog}}');">
+                        {{demand.demandDate|date:"d/m/y"}}
+                    </td>
+                    {% if demand.id %}
+                    <td class="text-center">
+                        <a href="{% url 'demands:demandDelete' demandId=demand.id %}"
+                                class="deleteBtn btn btn-sm" title="annuler"
+                                data-toggle="modal" data-target="#confirmModal"
+                                onclick="demandDeleteConfirmModal('{{demand.id}}', '{{demand}}');">
+                            <i class="fas fa-times fa-lg"></i>
+                        </a>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

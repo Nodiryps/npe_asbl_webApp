@@ -1,0 +1,37 @@
+<style>
+    .divCreateDog, .divCreatePost {
+        bottom: 65px;
+        right: 80px;
+        z-index: 9000;
+        color: white;
+    }
+    .createDogBtn, .createPostBtn {
+        border-radius: 200px;
+        padding: 15px;
+        height: 53px;
+        color: white;
+        background-color: rgb(179, 154, 230);
+    }
+    .createDogBtn:hover, .createPostBtn:hover {
+        color: white;
+        background-color: rgb(125, 85, 204);
+    }
+</style>
+
+{% if isDogContent and request.user.is_admin %}
+<div class="position-fixed px-1 divCreateDog">
+    <a href="{% url 'dogs:dogCreation' %}" class="btn createDogBtn shadow" title="ajouter un chien">
+        <i class="fas fa-plus fa-lg"></i>
+    </a>
+</div>
+{% endif %}
+
+{% if isPostContent and isUserAllowed %}
+<div class="position-fixed px-1 divCreatePost">
+    <a class="btn createPostBtn shadow" title="nouveau post"
+            data-toggle="modal" data-target="#postCreationModal"
+        >
+        <i class="fas fa-plus fa-lg"></i>
+    </a>
+</div>
+{% endif %}

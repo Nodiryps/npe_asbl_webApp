@@ -1,0 +1,109 @@
+{% extends 'baseLayout.html' %}
+
+{% block title %} Fiche de {{dog.get_name}} {% endblock %}
+
+{% block content  %}
+
+<div class="container">
+
+    {% if currUser.is_admin %}
+        <div class="container text-center mb-5">
+            <a href="{% url 'dogs:dogUpdate' dogId=dog.idDog %}" class="btn btn-secondary btn-sm" title="éditer">
+                <i class="fas fa-pen fa-lg"></i>
+            </a>
+
+            <a href="{% url 'dogs:dogDelete' dogId=dog.idDog %}" class="deleteBtn btn btn-secondary btn-sm" title="supprimer"
+                    data-toggle="modal" data-target="#confirmModal"
+                    onclick="dogDeleteConfirmModal('{{dog.idDog}}', '{{dog.get_name}}');">
+                <i class="fas fa-trash-alt fa-lg"></i>
+            </a>
+        </div>
+    {% endif %}
+
+    {% if currUser.is_active %}
+        {% include 'dogAdoptionHostBtn.html' with currUser=currUser %}
+    {% endif %}
+</div>
+
+<div class="container">
+    <div class="row row-cols-2">
+        <figure class="col figure">
+            <img src="{{ dog.picture.url }}"
+                style="max-width: 100%; height: auto;"
+                alt="photo de {{dog.name}}">
+            <figcaption class="figure-caption text-justify mt-3">{{dog.story}}</figcaption>
+        </figure>
+
+        <div class="col text-justify">
+            <b class="detailTitles">Nom</b>
+            <p class="detailFields">
+                {{dog.name}}
+            </p>
+
+            <b class="detailTitles">Race</b>
+            <p class="detailFields">
+                {{dog.dogBreed}}
+            </p>
+
+            <b class="detailTitles">Date de naissance</b>
+            <p class="detailFields">
+                {{dog.get_birth_date}}
+            </p>
+
+            <b class="detailTitles">Date d'arrivée</b>
+            <p class="detailFields">
+                {{dog.get_arrival_date}}
+            </p>
+
+            <b class="detailTitles">Pelage</b>
+            <p class="detailFields">
+                {{dog.dogCoat}}
+            </p>
+
+            <b class="detailTitles">Signes distinctifs</b>
+            <p class="detailFields">
+                {% for sign in dog.get_recognition_signs %}
+                    <p class="btn btn-secondary btn-sm rounded-pill text-light">{{sign}}</p>
+                {% endfor %}
+            </p>
+
+            {% if user.is_admin %}
+                <b class="detailTitles">Propriétaire</b>
+                <p class="detailFields">
+                    {{dog.get_owner_name}}
+                </p>
+
+                <b class="detailTitles">Famille d'accueil</b>
+                <p class="detailFields">
+                    {{dog.get_hostFamily_name}}
+                </p>
+
+                <b class="detailTitles">Marraine/Parrain</b>
+                <p class="detailFields sponsorField">
+                    {{dog.get_sponsor_name}}
+                </p>
+            {% endif %}
+
+            <b class="detailTitles">Vaccins antirabiques</b>
+            <p class="detailFields">
+                {{ dog.is_rabiesVaccine_done }}
+            </p>
+
+            <b class="detailTitles">Sérologie</b>
+            <p class="detailFields">
+                {{dog.get_serology}}
+            </p>
+        </div>
+    </div>
+</div>
+
+{% include 'paiementModal.html' with dog=dog user=currUser %}
+
+{% endblock %}
+
+
+{% block javascript %}
+<script type="text/javascript">
+
+</script>
+{% endblock %}

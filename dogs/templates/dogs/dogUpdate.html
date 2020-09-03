@@ -1,0 +1,23 @@
+{% extends 'formLayout.html' %}
+
+{% block title %} Modification de {{dog.get_name}} {% endblock %}
+
+{% block form %}
+
+<h2 class="display-4 my-5 d-flex justify-content-center">{{title}}</h2>
+
+<div class="mb-4 d-flex justify-content-center">
+    <form action="{%url 'dogs:dogUpdate' dogId=dog.idDog %}" method="post" enctype="multipart/form-data">
+        <!--to say that req comes from our app-->
+        {% csrf_token %}
+        {{form.as_p}}
+
+        <div class="text-center">
+            <button class="formBtns btn btn-success" type="submit">modifier</button>
+            <!-- <a class="formBtns btn btn-outline-secondary" href="{{ request.META.HTTP_REFERER }}">retour</a> -->
+        </div>
+    </form>
+</div>
+
+
+{% endblock %}

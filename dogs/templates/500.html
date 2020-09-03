@@ -1,0 +1,20 @@
+{% extends 'baseLayout.html' %}
+
+{% block content %}
+
+<div class="jumbotron">
+    <h1 class="display-4">Erreur 404</h1>
+    <p class="lead">
+        Désolé, une erreur est survenue au niveau du serveur.
+        <br> Veuillez contacter l'administrateur.
+    </p>
+    <hr class="my-4">
+    <a class="formBtns btn btn-outline-secondary" onclick="window.location.reload();">
+        <i class="fas fa-redo fa-lg"></i>
+    </a>
+    <a class="formBtns btn btn-outline-secondary" href="{{ request.META.HTTP_REFERER }}">
+        <i class="fas fa-arrow-left fa-lg"></i>
+    </a>
+</div>
+
+{% endif %}

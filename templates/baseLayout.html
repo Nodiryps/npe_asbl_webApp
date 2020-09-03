@@ -1,0 +1,39 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        {% include 'links.html' %}
+
+        {% include 'scripts.html' %}
+
+        <title>NPE</title>
+    </head>
+    <body>
+
+        {% include 'navbar.html' %}
+
+        {% include 'toasts.html' %}
+
+        <div class="container">
+            {% if isDogContent and request.user.is_admin %}
+                {% include 'createBtn.html' %}
+            {% endif %}
+
+            <div class="mt-5" >
+                <div class="row">
+                    <div class="col"></div>
+                    <h2 class="display-3 my-5">{% block title %} {% endblock %}</h2>
+                    <div class="col"></div>
+                </div>
+
+                {% block content %} {% endblock %}
+            </div>
+        </div>
+
+        {% include 'confirmationModal.html' %}
+
+
+        {% block javascript %} {% endblock %}
+    </body>
+</html>

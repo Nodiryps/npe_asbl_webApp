@@ -1,0 +1,165 @@
+{% load static %}
+
+<style>
+    a#navbarDropdown.nav-link.dropdown-toggle {
+        color:white;
+    }
+    a#navbarDropdown.nav-link.dropdown-toggle:hover {
+        color: rgb(179, 154, 230);
+    }
+    li {
+        list-style-type: none;
+    }
+    .navbar-brand img {
+        height: 30px;
+        margin: 5px auto 5px auto;
+    }
+    #searchbar {
+        width: 100%;
+        box-shadow: 0px 0px 4px rgb(179, 154, 230);
+        border-color: rgb(179, 154, 230);
+    }
+    .userConnected {
+        color: grey;
+        font-weight: normal;
+    }
+    .iconsNB {
+        color: white;
+    }
+    .iconsNB:hover {
+        color: rgb(179, 154, 230);
+    }
+    .dropdown-item .iconsNB{
+        color: rgb(179, 154, 230);
+    }
+    .logoutBtn {
+        background-color: transparent;
+        border: none;
+    }
+    .iconsNB .fa-inbox {
+        display: inline-block;
+    }
+    #demandNb {
+        margin-top: 10px;
+        padding: 2px 5px;
+        font-size: 0.8rem;
+        position: absolute;
+        top: 5px;
+        left: 305px;
+        z-index: 3001;
+    }
+</style>
+
+<nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark">
+    <a class="navbar-brand" href="{% url 'home' %}" title="logo/accueil">
+        <img src="{% static 'img/logoWhite.png' %}" alt="NousPourEux" />
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'about' %}" title="à propos de Nous">
+                    <i class="iconsNB fas fa-info-circle fa-lg"></i>
+                </a>
+            </li>
+
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'donations' %}" title="faire un don">
+                    <i class="iconsNB fas fa-donate fa-lg"></i>
+                </a>
+            </li>
+            {% if user.isOwner or user.isHost or user.isSponsor or user.is_admin %}
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'posts:postList' %}" title="ils sont heureux">
+                    <i class="iconsNB fas fa-smile-beam fa-lg"></i>
+                </a>
+            </li>
+            {% endif %}
+
+            {% if user.is_admin %}
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'accounts:userList' %}" title="utilisateurs">
+                        <i class="iconsNB fas fa-users fa-lg"></i>
+                    </a>
+                </li>
+
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'demands:demandList' %}" title="gestion des demandes">
+                        <i class="iconsNB fas fa-inbox fa-lg">
+                            <span id="demandNb" class="badge badge-pill badge-danger"></span>
+                        </i>
+                    </a>
+                </li>
+            {% endif %}
+
+        </ul>
+
+        <div class="col"></div>
+
+        <form class="form-inline my-2 my-md-0 col-md-6" action="{% url 'dogs:dogList' %}" method="get" accept-charset="utf-8">
+            <input class="form-control" id="searchbar" type="search" placeholder="Entrez le nom du chien ..." aria-label="Search"
+                    name="query" autofocus="true">
+        </form>
+
+        <div class="col"></div>
+
+
+        {% if user.is_authenticated %}
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconsNB fas fa-user-circle fa-lg"></i>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="text-center dropdown-item" href="{% url 'accounts:userProfile' %}" title="profile">
+                    <i class="iconsNB fas fa-user fa-lg"></i>
+                    <!-- <span>profile</span> -->
+                </a>
+
+                <div class="dropdown-divider"></div>
+
+                <form action="{% url 'accounts:logout' %}" method="post">
+                    {% csrf_token %}
+                    <button class="dropdown-item text-center logoutBtn" type="submit">
+                        <i class="iconsNB fas fa-sign-out-alt fa-lg"></i>
+                        <!-- <span>déconnexion</span> -->
+                    </button>
+                </form>
+            </div>
+          </li>
+
+        <span>
+            <u class="userConnected">{{user.username}}</u>
+        </span>
+
+        {% else %}
+            <a class="nav-link" href="{% url 'accounts:login' %}" title="connexion">
+                <i class="iconsNB fas fa-sign-in-alt fa-lg"></i>
+            </a>
+        {% endif %}
+
+    </div>
+</nav>
+
+{% block javascript %}
+<script type="text/javascript">
+$(() => {
+    // $('#demandNb').html(sessionStorage.getItem('demandNb'));
+    badgeNotification();
+});
+
+
+function badgeNotification() {
+    $.get("/demands/getDemandNb/", res => {
+        console.log('NOTIF')
+        sessionStorage.setItem('demandNb', res);
+        $('#demandNb').html(sessionStorage.getItem('demandNb'));
+    });
+}
+
+</script>
+{% endblock %}

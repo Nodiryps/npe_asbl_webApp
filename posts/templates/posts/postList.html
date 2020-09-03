@@ -1,0 +1,80 @@
+{% extends 'baseLayout.html' %}
+
+
+{% block title %}Loulous News{% endblock %}
+
+
+{% block content %}
+
+<style>
+    #divDogImg {
+        margin: 0 auto;
+        padding: 0;
+        overflow: hidden;
+    }
+    #divDogImg img {
+        border-radius: 0;
+        height: 500px;
+        width: auto;
+        max-width: 100%;
+        position: relative;
+        top: -50px;
+        left: 0;
+    }
+    .postCard {
+        height: 500px;
+        width: 500px;
+    }
+    .newPostBtn {
+        background-color: rgb(179, 154, 230);
+    }
+    .newPostBtn:hover {
+        color: white;
+        background-color: rgb(125, 85, 204);
+    }
+</style>
+
+{% if not posts %}
+    <div class="container text-center my-5">
+        <h2 class="display-4">Désolé, aucun Post...</h2>
+    </div>
+{% endif %}
+
+<center>
+    <a href="{% url 'posts:postCreation' %}" class="btn mb-5 shadow newPostBtn">
+        ajouter un post
+    </a>
+</center>
+
+
+<div id="postList" class="col">
+    {% for post in posts %}
+    <div class="row">
+        <div class="col"></div>
+
+        <div class="card mb-5 postCard shadow" id="id_post_{{post.id}}">
+            <div class="card-header bg-transparent">
+                <h3>{{ post.dog.get_name }}</h3>
+                <p>{{ post.body }}</p>
+            </div>
+
+            <div id="divDogImg" class="card-body">
+                {% if post.postPicture %}
+                    <img src="{{post.postPicture.url}}"
+                    alt="photo de {{post.dog.name}}">
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="col"></div>
+    </div>
+    {% endfor %}
+</div>
+
+
+<!-- {% include 'createBtn.html' %} -->
+
+{% include 'postCreationModal.html' with form=form %}
+
+
+{% endblock %}

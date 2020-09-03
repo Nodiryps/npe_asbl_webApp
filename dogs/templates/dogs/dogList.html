@@ -1,0 +1,71 @@
+{% extends 'baseLayout.html' %}
+{% load static %}
+
+{% block title %} Les loulous {% endblock %}
+
+{% block content %}
+
+
+<div class="d-flex justify-content-center">
+    <div class="col-8">
+
+        <div class="row">
+            <div class="col"></div>
+
+            <form class="genderFiltrersBtnGrp form-inline my-2 col-md-6" action="{% url 'dogs:dogList' %}" method="get">
+                <div class="btn-group">
+                    <button type="submit" class="btn btn-secondary gndrfltr" name="genderFilter" value="F">
+                        <i class="fas fa-venus fa-lg"></i>
+                    </button>
+                    <button type="submit" class="btn btn-secondary gndrfltr" name="genderFilter" value="M">
+                        <i class="fas fa-mars fa-lg"></i>
+                    </button>
+                    <button type="submit" class="btn btn-outline-secondary gndrfltr" name="genderFilter" value="all">
+                        <i class="fas fa-venus-mars fa-lg"></i>
+                    </button>
+                </div>
+            </form>
+
+            <div class="col"></div>
+        </div>
+
+
+        <div class="row mt-5" id="dogList">
+            {% include 'dogs/dogListCards.html' with dogs=dogs user=user %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% block javascript%}
+<script text="javascript">$(() => {
+
+
+    // const idDog = "id_dog_" + $('.card').data('iddog');
+    // const dogs = $('#hasDemand').data('dogs');
+    // let dog = '';
+
+    // $('.card').each((index) => {
+    //     dog = $('.card').data('dog');
+    //     console.log(index, dog);
+    // });
+
+
+    $('form.genderFiltrersBtnGrp').replaceWith(
+        `<div class="btn-group genderFiltrersBtnGrp">
+            <button type="submit" class="btn btn-secondary gndrfltr" name="genderFilter" value="F" onclick="gndrFltr('F');">
+                <i class="fas fa-venus fa-lg"></i>
+            </button>
+            <button type="submit" class="btn btn-secondary gndrfltr" name="genderFilter" value="M" onclick="gndrFltr('M');">
+                <i class="fas fa-mars fa-lg"></i>
+            </button>
+            <button type="submit" class="btn btn-outline-secondary gndrfltr" name="genderFilter" value="all" onclick="gndrFltr('all');">
+                <i class="fas fa-venus-mars fa-lg"></i>
+            </button>
+        </div>`
+    );
+
+});</script>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'formLayout.html' %}
+
+{% block title %}
+    Écran de modification
+{% endblock %}
+
+{% block form %}
+
+<div class="mb-4 d-flex justify-content-center">
+    <form id="userUpdateForm" action="{%url 'accounts:userUpdate' userId=user.id %}" method="post" enctype="multipart/form-data">
+        <!--to say that req comes from our app-->
+        {% csrf_token %}
+        {{form.as_p}}
+
+        <div class="text-center">
+            <button class="formBtns btn btn-success" type="submit">modifier</button>
+            <!-- <a class="formBtns btn btn-outline-secondary" href="{{ request.META.HTTP_REFERER }}">retour</a> -->
+        </div>
+    </form>
+</div>
+
+
+{% endblock %}
+
+
+{% block javascript %}
+<script text="javascript">
+    $(() => {
+
+        $('#id_town').css('text-transform', 'capitalize');
+
+        $('#id_streetName').css('text-transform', 'capitalize');
+
+    });
+</script>
+{% endblock %}

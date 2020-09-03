@@ -1,0 +1,94 @@
+{% extends 'baseLayout.html' %}
+{% load static %}
+
+
+{% block title %} Les demandes {% endblock %}
+
+
+{% block content %}
+<style>
+    .demandDetails {
+        cursor: pointer;
+    }
+    .acceptBtn:hover {
+        color: rgb(21, 219, 21);
+    }
+    .deleteBtn:hover {
+        color: crimson;
+    }
+</style>
+
+{% if currUser.is_admin %}
+
+    <div class="d-flex justify-content-center">
+        <table class="table table-hover shadow" id="demandList">
+            <thead class="thead-dark text-center">
+                <th scope="col">Type de demande</th>
+                <th scope="col">Nom du/de la chien.ne</th>
+                <th scope="col">Demandeur.euse</th>
+                <th scope="col">Date de la demande</th>
+                <th scope="col">Actions</th>
+            </thead>
+
+            <tbody>
+                {% for demand in demands %}
+                <tr>
+                    <td id="id_demand_{{demand.id}}" class="text-center demandDetails"
+                            data-toggle="modal" data-target="#detailsModal"
+                            onclick="userDetailsModal('{{demand.applicant.id}}');">
+                        {% if demand.demandType == 'hosting' %}
+                            accueil
+                        {% else %}
+                            {{demand.demandType}}
+                        {% endif %}
+                    </td>
+                    <td id="id_demand_{{demand.id}}" class="text-center demandDetails"
+                            data-toggle="modal" data-target="#detailsModal"
+                            onclick="userDetailsModal('{{demand.applicant.id}}');">
+                        {{demand.dog.get_name}}
+                    </td>
+                    <td  id="id_demand_{{demand.id}}" class="text-center demandDetails"
+                            data-toggle="modal" data-target="#detailsModal"
+                            onclick="userDetailsModal('{{demand.applicant.id}}');">
+                        {{demand.applicant.username}}
+                    </td>
+                    <td  id="id_demand_{{demand.id}}" class="text-center demandDetails"
+                            data-toggle="modal" data-target="#detailsModal"
+                            onclick="userDetailsModal('{{demand.applicant.id}}');">
+                        {{demand.demandDate|date:"d/m/y"}}
+                    </td>
+                    <td>
+                        {% if not currUser == demand.applicant  %}
+                            <div class="container text-center">
+                                <a href="{% url 'demands:demandAccept' demandId=demand.id %}" class="acceptBtn btn btn-sm" title="accepter"
+                                        data-toggle="modal" data-target="#confirmModal"
+                                        onclick="acceptDemandConfirmModal('{{demand.id}}', '{{demand.dog.idDog}}', '{{demand.dog.get_name}}', '{{demand.demandType}}');">
+                                    <i class="fas fa-check fa-lg"></i>
+                                </a>
+
+                                <a href="{% url 'demands:demandDelete' demandId=demand.id %}" class="deleteBtn btn btn-sm" title="rejeter"
+                                        data-toggle="modal" data-target="#confirmModal"
+                                        onclick="demandDeleteConfirmModal('{{demand.id}}', '{{demand}}');">
+                                    <i class="fas fa-times fa-lg"></i>
+                                </a>
+                            </div>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endif %}
+
+{% include 'detailsModal.html' %}
+
+{% block javascript %}
+<script type="text/javascript">
+
+</script>
+{% endblock %}
+
+
+{% endblock %}

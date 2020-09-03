@@ -1,0 +1,75 @@
+{% extends 'baseLayout.html' %}
+
+{% block title %} Bonjour {{request.user.firstName}} {% endblock %}
+
+{% block content %}
+<style>
+    html {
+        scroll-behavior: smooth;
+    }
+    .iconsUP {
+        color: rgb(179, 154, 230);
+        font-size: 5rem;
+    }
+    .deleteBtn:hover {
+        color: crimson;
+    }
+    #userProfileDogTable {
+        position: relative;
+        top: 300px;
+        left: 0px;
+    }
+    #userProfileDemandTableAncor {
+        position: relative;
+        top: 300px;
+        left: 0px;
+    }
+    #userProfileDemandTable, #userProfileDemandTableAncor {
+        position: relative;
+        top: 800px;
+        left: 0px;
+    }
+    #userProfileDemandTable {
+        margin-bottom: 1000px;
+    }
+    #navbar-profile {
+        position: relative;
+        top: 100px;
+        left: 0;
+    }
+</style>
+
+
+<nav id="navbar-profile" class="navbar my-5 justify-content-center">
+    <ul class="nav nav-pills">
+        <li class="nav-item">
+            <a href="#userProfileDemandTable" class="nav-link mx-3" title="vos demandes d'adotion/accueil">
+                <i class="iconsUP fas fa-paper-plane fa-lg"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="#userProfileDogTableAncor" class="nav-link mx-5" title="vos loulous">
+                <i class="iconsUP fas fa-dog fa-lg"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'accounts:userUpdate' userId=currUser.id %}" class="nav-link mx-5" title="modifier vos informations">
+                <i class="iconsUP fas fa-edit fa-lg"></i>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+
+<div data-spy="scroll" data-target="#navbar-profile" data-offset="0">
+    {% include 'userProfileDogTable.html' with dogs=dogs %}
+</div>
+
+<div data-spy="scroll" data-target="#navbar-profile" data-offset="0">
+    {% include 'userProfileDemandTable.html' with demands=demands %}
+</div>
+
+{% include 'detailsModal.html' %}
+
+{% endblock %}
+

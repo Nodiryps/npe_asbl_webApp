@@ -1,0 +1,93 @@
+<style>
+    .helpTxtIcon {
+        color: lightslategray; height: 0.9rem;
+    }
+    .iconHelpTxt {
+        color: lightslategray; font-size: 0.8rem;
+    }
+    .card {
+        max-width: 100%; min-width: 80%;
+    }
+    .card h3{
+        display: inline;
+    }
+    .card span {
+        float: right; margin:5px
+    }
+    .card img {
+        max-width: 50%; height: 50%; float: left; margin-right: 15px;
+    }
+    .dogstory {
+        display: inline;
+    }
+</style>
+
+{% if dogs %}
+<div class="container mb-1">
+    <i class="helpTxtIcon fas fa-home"></i>
+    <span class="iconHelpTxt">: en famille d'accueil</span>
+</div>
+{% endif %}
+
+{% if not dogs %}
+    <div class="container text-center mt-5">
+        <h2 class="display-4">Désolé, aucun résultat...</h2>
+    </div>
+{% endif %}
+
+{% for dog in dogs %}
+
+    {% if currUser.is_admin or not currUser.is_admin and not dog.hasAdoptionDemand %}
+        <div class="card border-secondary mb-5" id="id_dog_{{dog.idDog}}" data-idDog="{{dog.idDog}}" data-dogs="{{dogs}}">
+            <div class="card-header bg-transparent border-secondary">
+                <h3>{{ dog.get_name }}</h3>
+
+                <span>
+                    {% if dog.hosted %}
+                        <span title="en famille d'accueil">
+                            <i class="fas fa-home fa-lg"></i>
+                        </span>
+                    {% endif %}
+                    <span id="hasDemand" data-dogs="{{dogs}}"></span>
+
+                    {% if currUser.is_admin and dog.hasAdoptionDemand %}
+                        <span class="">(demande d'adoption en cours)</span>
+                    {% elif currUser.is_admin and dog.hasHostDemand %}
+                        <span class="">(demande d'accueil en cours)</span>
+                    {% endif %}
+
+                    <!-- <a title="ajouter aux favoris" class="favDog" style="cursor: pointer;">
+                        <i class="fas fa-heart fa-lg"></i>
+                    </a> -->
+                </span>
+            </div>
+
+            <div class="card-body text-secondary">
+                {% if dog.picture %}
+                    <a href="{% url 'dogs:dogDetails' dogId=dog.idDog %}" title="détails">
+                        <img class="card-img-top" src="{{ dog.picture.url }}"
+                        alt="photo de {{dog.get_name}}">
+                    </a>
+                {% endif %}
+
+                <div class="dogStory">
+                    <p>
+                        {{ dog.get_name }} est
+                        {% if dog.is_a_female %} arrivée {% else %} arrivé {% endif %}
+                        le: {{ dog.get_arrival_date }}
+                    </p>
+
+                    <p>{{ dog.get_story }}</p>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+{% endfor %}
+
+
+{% block javascript %}
+<script type="text/javascript">
+
+</script>
+{% endblock %}

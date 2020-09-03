@@ -1,0 +1,17 @@
+{% extends 'baseLayout.html' %}
+
+{% block content %}
+
+<div class="jumbotron jumbotron-fluid">
+    <h1 class="display-4">Erreur 404</h1>
+    <p class="lead">Désolé, la page demandée est introuvable.</p>
+    <hr class="my-4">
+    <a class="formBtns btn btn-outline-secondary" onclick="window.location.reload();">
+        <i class="fas fa-redo fa-lg"></i>
+    </a>
+    <a class="formBtns btn btn-outline-secondary" href="{{ request.META.HTTP_REFERER }}">
+        <i class="fas fa-arrow-left fa-lg"></i>
+    </a>
+</div>
+
+{% endif %}

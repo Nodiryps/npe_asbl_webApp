@@ -1,0 +1,147 @@
+<style>
+    .modalCompleteSponsorBtn, .modalHalfSponsorBtn {
+        color: white;
+        background-color: rgb(179, 154, 230);
+    }
+</style>
+
+
+<div class="modal fade" id="paiementModal" tabindex="-1" role="dialog" aria-labelledby="paiementModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered  modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="paiementModalLabel">
+                    Parrainage de {{dog.get_name}}
+                </h5>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col p-5">
+                            <div class="row">
+                                <h5>Choisissez le type de parrainage</h5>
+                                <p>(complet ou demi)</p>
+                            </div>
+                            <div class="row">
+                                <form id="radioForm">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="sponsorRadios" id="sponsorRadioComplete" value="25" checked>
+                                        <label class="form-check-label" for="sponsorRadioComplete">25€/mois</label>
+                                    </div>
+
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="sponsorRadios" id="sponsorRadioHalf" value="12.50">
+                                        <label class="form-check-label" for="sponsorRadioHalf">12.50€/mois</label>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="col p-5 mr-5">
+                            <div class="paypalBtns" id="paypal-button-container"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="modalCancelBtn btn btn-secondary" data-dismiss="modal">annuler</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://www.paypal.com/sdk/js?client-id=Ab54Ik06w4n7xXIfa11T-7jn9wW0ye4lc4bIFt-KrF2hDENyScTbKLM_sIB0HgOOwpFoJwFdGa2-ZTAY&currency=EUR&disable-funding=credit"></script>
+
+
+{% block javascript %}
+<script>
+    const idDog = '{{dog.idDog}}';
+    const dogName = '{{dog.name}}';
+    const idUser = '{{user.id}}';
+    const user = '{{user}}';
+    let amount = $('input[name=sponsorRadios]:checked', '#radioForm').val();
+
+    $('#radioForm input[type=radio]').on('change', () => {
+        amount = $('input[name=sponsorRadios]:checked', '#radioForm').val();
+        console.log(amount)
+    });
+
+
+    // Render the PayPal button into #paypal-button-container
+    paypal.Buttons({
+        style: {
+            color: 'black',
+        },
+        // Set up the transaction
+        createOrder: (data, actions) => {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: amount
+                    }
+                }]
+            });
+        },
+
+        // Finalize the transaction
+        onApprove: (data, actions) => {
+            return actions.order.capture().then(details => {
+                sponsorDog();
+                toastSponsor(details.payer.name.given_name);
+            });
+        }
+    }).render('#paypal-button-container');
+
+
+    function sponsorDog() {
+        let url = `/dogs/sponsorDog/${idDog}/${idUser}/`;
+
+        setHtmlModal(dogName, '', 'sponsor');
+
+        $('.modalCancelBtn, .close').on('click', () => {
+            url = '';
+        });
+
+        if (url !== '') {
+            $('#paiementModal').modal('hide');
+            disableSponsorBtn();
+            ajaxSetup();
+            ajaxSponsor(url);
+            $('p.sponsorField').html(user)
+        }
+    }
+
+
+    function disableSponsorBtn() {
+        $('.divSponsorBtn a').replaceWith(
+            `<a class="btn btn-sm sponsorBtn shadow" title="parrainer un chien">
+                <i class="fas fa-hand-holding-heart fa-lg"></i> Parrainer
+            </a>`);
+    }
+
+
+    function ajaxSponsor(url) {
+        return $.post(url, res => {
+            if (res && amount === '25') {
+                console.log('res:', res)
+                $('.divSponsorBtn').hide();
+            }
+        });
+    }
+
+
+    function toastSponsor(userName) {
+        $('.toast-body').html("Un tout grand MERCI pour ton parrainage, <b>" + userName + "</b> !");
+        $('html, body').animate({scrollTop: 0}, 'fast');
+        $('.toast').toast('show');
+    }
+
+</script>
+{% endblock %}

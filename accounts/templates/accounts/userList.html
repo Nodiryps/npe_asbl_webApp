@@ -1,0 +1,102 @@
+{% extends 'baseLayout.html' %}
+{% load static %}
+
+{% block title %} Les membres {% endblock %}
+
+{% block content %}
+<style>
+    .demandDetails {
+        cursor: pointer;
+    }
+    .editBtn:hover {
+        color: rgb(125, 85, 204);
+    }
+    .deleteBtn:hover {
+        color: crimson;
+    }
+    .userCreateBtn:hover {
+        background-color: rgb(125, 85, 204);
+        border-color: rgb(125, 85, 204);
+    }
+</style>
+
+
+{% if currUser.is_admin %}
+
+<div class="text-right">
+    <a href="{% url 'accounts:userCreation' %}" class="userCreateBtn btn btn-sm btn-dark my-3 px-5 shadow" title="ajouter un membre">
+        <i class="fas fa-user-plus fa-lg"></i>
+    </a>
+</div>
+<div class="d-flex justify-content-center">
+    <table class="table table-hover shadow">
+        <thead class="thead-dark text-center">
+            <th scope="col">Pseudo</th>
+            <th scope="col">Nom</th>
+            <th scope="col">Prénom</th>
+            <th scope="col">Date de naissance</th>
+            <th scope="col">Numéro national</th>
+            <th scope="col">Actions</th>
+        </thead>
+
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td id="id_user_{{user.id}}" class="text-center userDetails"
+                        data-toggle="modal" data-target="#detailsModal"
+                        onclick="userDetailsModal('{{user.id}}', '{{user.username}}', 'user');">
+                    {{user.username}}
+                </td>
+                <td  id="id_user_{{user.id}}" class="text-center userDetails"
+                        data-toggle="modal" data-target="#detailsModal"
+                        onclick="userDetailsModal('{{user.id}}', '{{user.username}}', 'user');">
+                    {{user.lastName}}
+                </td>
+                <td  id="id_user_{{user.id}}" class="text-center userDetails"
+                        data-toggle="modal" data-target="#detailsModal"
+                        onclick="userDetailsModal('{{user.id}}', '{{user.username}}', 'user');">
+                    {{user.firstName}}
+                </td>
+                <td  id="id_user_{{user.id}}" class="text-center userDetails"
+                        data-toggle="modal" data-target="#detailsModal"
+                        onclick="userDetailsModal('{{user.id}}', '{{user.username}}', 'user');">
+                    {{user.birthDate|date:"d/m/y"}}
+                </td>
+                <td  id="id_user_{{user.id}}" class="text-center userDetails"
+                        data-toggle="modal" data-target="#detailsModal"
+                        onclick="userDetailsModal('{{user.id}}', '{{user.username}}', 'user');">
+                    {{user.nationalNumber}}
+                </td>
+                <td class="text-center">
+                    {% if currUser == user %}
+                    <a href="{% url 'accounts:userUpdate' userId=user.id %}" class="editBtn btn btn-sm" title="éditer">
+                        <i class="fas fa-edit fa-lg"></i>
+                    </a>
+                    {% endif %}
+                    {% if currUser != user %}
+                    <a href="{% url 'accounts:userDelete' userId=user.id %}" class="deleteBtn btn btn-sm" title="supprimer"
+                            data-toggle="modal" data-target="#confirmModal"
+                            onclick="userDeleteConfirmModal('{{user.id}}', '{{user.username}}');">
+                        <i class="fas fa-trash fa-lg"></i>
+                    </a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+{% include 'detailsModal.html' %}
+
+
+{% block javascript %}
+<script type="text/javascript">
+
+</script>
+{% endblock %}
+
+{% endif %}
+
+{% endblock %}

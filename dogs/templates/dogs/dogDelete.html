@@ -1,0 +1,26 @@
+{% extends 'formLayout.html' %}
+
+{% block title %} Suppression de {{dog.get_name}} {% endblock %}
+
+{% block form %}
+
+<h2 class="display-4 my-5 d-flex justify-content-center">{{title}}</h2>
+
+<div class="d-flex justify-content-center">
+    <form action="" method="post">
+        <!--to say that req comes from our app-->
+        {% csrf_token %}
+
+        <button class="formBtns btn btn-danger" type="submit">supprimer</button>
+        <a onclick="goBack();" class="formBtns btn btn-outline-secondary" href="{{ request.META.HTTP_REFERER }}">annuler</a>
+    </form>
+</div>
+
+{% endblock %}
+
+
+{% block javascript %}
+<script type="text/javascript">
+    const goBack = () => { window.history.back(); };
+</script>
+{% endblock %}

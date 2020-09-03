@@ -1,0 +1,104 @@
+{% extends 'baseLayout.html' %}
+
+{% block content %}
+<style>
+    .blockDon {
+        border-radius: 5px;
+        border: 1px solid grey;
+        margin-left: 15px;
+        margin-right: 15px;
+        background-color: white;
+    }
+</style>
+
+<h2 class="display-4 mt-5 mb-3">Pour Nous aider</h2>
+<div class="continer">
+    <div class="row">
+        <div class="col p-5 my-2 blockDon">
+            <div class="row">
+                <h3 class="display-5">Domiciliations</h3>
+                <p>Vous pouvez aider les loulous en devenant membre de notre association, pour une cotisation de minimum
+                    <u>12,50 euros</u> <b>par an</b>.</p>
+                <p>Vous pouvez aussi <a href="{% url 'home' %}">parrainer un chien</a> du refuge pour <u>25 euros</u> <b>par mois</b> (ou un
+                    demi-parrainage de <u>12,50 euros</u> <b>par mois</b>).</p>
+            </div>
+
+            <div class="row mt-5 text-center">
+                <div class="col">
+                    <div class="row">
+                        <p class="mr-2">IBAN:</p><b>BE92 6511 5670 5223</b>
+                    </div>
+                    <div class="row">
+                        <p class="mr-2">BIC:</p><b>KEYTBEBB</b>
+                    </div>
+                    <div class="row">
+                        <p class="mr-2">COMMUNICATION:</p>
+                        <b>MEM</b>
+                        <p class="mx-2">ou</p>
+                        <b>PAR</b>
+                        <p class="mx-2">+</p>
+                        <b>VOTRE_USERNAME</b>
+                        <p style="margin-top: -10px; font-size: 0.8rem;">(ex:<b class="ml-2">MEM_2213BOVERHAEGEN</b>)
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col p-5 my-2 blockDon">
+            <h3 class="display-5">Dons</h3>
+            <p>Vous pouvez faire un don, et aussi participer à nos collectes organisées de manière régulière afin
+                d’envoyer en Roumanie de la nourriture, des paniers, des jouets, des friandises, …</p>
+
+            <div class="input-group mb-3">
+                <input value="5.00" step="0.01" min="1" max="1000000" type="number" class="form-control amountInput">
+                <div class="input-group-append">
+                    <span class="input-group-text">€</span>
+                </div>
+            </div>
+
+            <div class="mt-5" id="paypal-button-container"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Include the PayPal JavaScript SDK -->
+<script src="https://www.paypal.com/sdk/js?client-id=Ab54Ik06w4n7xXIfa11T-7jn9wW0ye4lc4bIFt-KrF2hDENyScTbKLM_sIB0HgOOwpFoJwFdGa2-ZTAY&currency=EUR&disable-funding=credit"></script>
+
+<script>
+    let donationAmount = '5.00';
+
+    $('.amountInput').bind('keyup click', () => {
+        donationAmount = $('.amountInput').val();
+        console.log(':::', donationAmount);
+    });
+
+
+    // Render the PayPal button into #paypal-button-container
+    paypal.Buttons({
+        style: {
+            color: 'black',
+        },
+        // Set up the transaction
+        createOrder: (data, actions) => {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: donationAmount
+                    }
+                }]
+            });
+        },
+
+        // Finalize the transaction
+        onApprove: (data, actions) => {
+            return actions.order.capture().then(details => {
+                $('.toast-body').html("Un tout grand MERCI pour ton don, <b>" + details.payer.name.given_name + "</b> !");
+                $('html, body').animate({scrollTop: 0}, 'fast');
+                $('.toast').toast('show');
+            });
+        }
+    }).render('#paypal-button-container');
+</script>
+
+{% endblock %}

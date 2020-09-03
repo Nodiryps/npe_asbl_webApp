@@ -1,0 +1,109 @@
+<style>
+    .modalConfirmBtn {
+        background-color: rgb(179, 154, 230);
+    }
+    .modalConfirmBtn:hover {
+        color: white;
+        background-color: rgb(125, 85, 204);
+    }
+</style>
+
+
+<div class="modal fade" id="postCreationModal" tabindex="-1" role="dialog"
+        aria-labelledby="postCreationLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered  modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="postCreationLabel">
+                    Création d'un nouveau Post
+                </h5>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form id="postCreationForm" action="{% url 'posts:postList' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% include 'formRenderingLogic.html'%}
+
+                    <div id="createPostModalFooter" class="modal-footer">
+                        <button type="submit" class="modalConfirmBtn btn form-control">
+                            créer
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(() => {
+        $('.createPostBtn').on('click', () => {
+            // $('#id_dog').val('');
+            $('#id_body').val('');
+            $('#id_body').attr('placeholder', '...au parc :)');
+            $('#id_postPicture').val('');
+        });
+    });
+
+
+    // $('#postCreationForm').on('submit', (e) => {
+    //     e.preventDefault();
+    //     const postDog = $('#id_dog').val().trim();
+    //     const postBody= $('#id_body').val().trim();
+    //     const postPic = $('#id_postPicture').val().trim();
+
+    //     if (postDog && postBody && postPic) {
+    //         console.log(
+    //             typeof(postDog) +': '+ postDog,
+    //             typeof(postBody) +': '+ postBody,
+    //             typeof(postPic) +': '+ postPic
+    //         );
+
+    //         ajaxSetup();
+    //         // $.post(`posts/createPost/${postDog}/${postBody}/${postPic}/`, data => {
+    //         $.post(`/posts/`, data => {
+    //             // prependToPostList(data.post);
+    //             //    `posts/createPost/${postDog}/${postBody}/${postPic}/`
+    //             console.log('data:', data)
+    //         });
+    //     }
+    // });
+
+    function prependToPostList(post) {
+        $('#postList').prepend(`
+
+        `);
+    }
+
+
+    // function createPostFormIsValid() {
+    //     return $('#id_body').val().length >= 2
+    //         && $('#id_dogNamesList').val() !== ''
+    //         && $('#id_postPicture').val() !== '';
+    // }
+
+    // function createPost() {
+    //     const body = $('#id_body').val();
+    //     const dogName = $('#id_dogNamesList').val();
+    //     const postPict = $('#id_postPicture').val();
+
+    //     const json = {"body" : `${body}`, "dogName" : `${dogName}`, "postPicture" : `${postPict}`,}
+
+    //     if (createPostFormIsValid()) {
+    //         ajaxSetup();
+    //         let form = $('#postCreationForm');
+    //         $.ajax(`/posts/createPost/`, {data: form.serialize()}, (res) => {
+    //             console.log(res);
+    //             if (res.validForm) {
+    //                 $('#postList').html(res.postList);
+    //                 $('#postCreationModal').modal('hide');
+    //             }
+    //         });
+    //     }
+    // }
+</script>

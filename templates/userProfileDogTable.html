@@ -1,0 +1,148 @@
+{% include 'paiementModal.html' with dog=dog user=currUser %}
+
+<style>
+    .updateDogNameModalConfirmBtn {
+        background-color: rgb(179, 154, 230);
+    }
+    .updateDogNameModalConfirmBtn:hover {
+        color: white;
+        background-color: rgb(125, 85, 204);
+    }
+</style>
+
+
+<!--------------- MODAL --------------->
+ <div class="modal fade" id="updateDogNameModal" tabindex="-1" role="dialog"
+        aria-labelledby="updateDogNameLabel" aria-hidden="true"
+        data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateDogNameLabel"></h5>
+
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <label for="dogNameInput">Veuillez entrer le nouveau nom:</label>
+                <input id="dogNameInput" name="dogNameInput" type="text" class="form-control" aria-label="currentName" aria-describedby="basic-addon1">
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="modalCancelBtn btn btn-secondary" data-dismiss="modal">annuler</button>
+
+                <button type="button" class="updateDogNameModalConfirmBtn btn" data-dismiss="modal">confirmer</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--------------- MODAL --------------->
+
+
+<div id="userProfileDogTableAncor" class="container"></div>
+
+<div id="userProfileDogTable" class="my-5">
+    <h3 class="mb-4">
+         <i class="inconsUP fas fa-dog fa-lg"></i>
+         Vos loulous
+     </h3>
+
+     <div class="d-flex justify-content-center">
+         <table class="table table-hover shadow" id="userProfileDogList">
+             <thead class="thead-dark text-center">
+                 <th scope="col">Nom</th>
+                 <th scope="col">Etat</th>
+                 <th scope="col">Actions</th>
+             </thead>
+
+             <tbody>
+                 {% for dog in dogs %}
+                 <tr>
+                     <td id="_dog_{{dog.idDog}}" class="text-center userProfileDogName"
+                             data-toggle="modal" data-target="#detailsModal"
+                             onclick="showDogDetails('{{dog.idDog}}');">
+                        {{dog.get_name}}
+                     </td>
+                     <td class="text-center">
+                        {% if dog.adopted %}
+                            adopté.e
+                        {% elif dog.hosted %}
+                            en famille d'accueil
+                        {% elif dog.sponsored %}
+                            parrainé.e
+                        {% endif %}
+                    </td>
+                     <td class="text-center">
+                            <a class="updateDogNameEditBtn btn btn-sm" title="éditer"
+                                    data-toggle="modal" data-target="#updateDogNameModal"
+                                    onclick="setDogData('{{dog.idDog}}', '{{dog.name}}');">
+                                <i class="fas fa-edit fa-lg"></i>
+                            </a>
+                        {% if dog.sponsored and dog.sponsor == currUser %}
+                        <a href="" class="sponsorPayBtn btn btn-sm" title="payer la mensualité"
+                                data-toggle="modal" data-target="#paiementModal">
+                            <i class="fas fa-donate fa-lg"></i>
+                        </a>
+                        {% endif %}
+                    </td>
+                 </tr>
+                 {% endfor %}
+             </tbody>
+         </table>
+     </div>
+ </div>
+
+
+<script>
+    $(() => {
+        $('#dogNameInput').val('');
+    });
+
+
+    $('#updateDogNameModal').on('shown.bs.modal', () => {
+        $('#dogNameInput').trigger('focus');
+        $('#dogNameInput').css('text-transform', 'capitalize');
+    });
+
+
+    let dogId = '';
+    let currentName = '';
+    let newName = '';
+
+    function setDogData(id, name) {
+        dogId = id;
+        currentName = name
+        console.log('name:', name)
+        $('#updateDogNameModal .modal-title').html(`Modifier le nom de ${name}?`);
+        $('#dogNameInput').val(name);
+    }
+
+
+    $('#dogNameInput').on('keyup', () => {
+        newName = $("#dogNameInput").val();
+    });
+
+
+    $('.updateDogNameModalConfirmBtn').on('click', () => {
+        if (isDogDataValid()) {
+            ajaxSetup();
+            updateDogName();
+        }
+    });
+
+    function updateDogName() {
+        return $.post(`updateDogName/${dogId}/${newName}/`, res => {
+            if (res) {
+                $(`#_dog_${dogId}`).html(`${newName}`);
+                $(`#_dog_${dogId}`).css('text-transform', 'capitalize');
+                // $(`td #_dog_${dogId}`).html(`${newName}`);
+            }
+        });
+    }
+
+    function isDogDataValid() {
+        return dogId !== '' && (newName !== '' && newName !== currentName);
+    }
+</script>

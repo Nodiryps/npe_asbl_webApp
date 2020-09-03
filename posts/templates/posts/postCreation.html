@@ -1,0 +1,17 @@
+{% extends 'formLayout.html' %}
+{% load static %}
+
+{% block title %} Nouveau post {% endblock %}
+
+{% block form %}
+<div class="mb-4 d-flex justify-content-center text-center">
+    <form id="postCreationForm" action="{% url 'posts:postCreation' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% include 'formRenderingLogic.html'%}
+
+        <button type="submit" class="btn btn-success form-control">créer</button>
+
+    </form>
+</div>
+
+{% endblock %}

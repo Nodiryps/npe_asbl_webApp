@@ -1,0 +1,67 @@
+<style>
+    .nav {
+        padding: 0px;
+        margin-left: -13px;
+    }
+    .adoptionBtn, .hostBtn, .sponsorBtn {
+        display: inline-block;
+        /* clear: left; */
+        padding: 15px;
+        margin-bottom: 15px;
+        color: mintcream;
+        background-color: rgb(179, 154, 230);
+    }
+    .hostBtn, .sponsorBtn {
+        margin-left: 10px;
+    }
+    .divHostBtn:hover, .divAdoptionBtn:hover, .divSponsorBtn:hover {
+        color: mintcream;
+    }
+    .adoptionBtn:hover, .hostBtn:hover, .sponsorBtn:hover {
+        background-color: rgb(125, 85, 204);
+    }
+</style>
+
+{% if not dog.adopted %}
+    <div class="container">
+        <ul class="nav nav-pills">
+            {% if not dog.hasAdoptionDemand %}
+                <li class="nav-item">
+                    <div class="divAdoptionBtn">
+                        <a class="btn btn-sm adoptionBtn shadow" title="adopter un chien"
+                        data-toggle="modal" data-target="#confirmModal"
+                        onclick="sendDemand('{{dog.idDog}}', '{{currUser.id}}', '{{dog.name}}', 'adoption');"
+                        >
+                            <i class="fas fa-heart"></i> Adopter
+                        </a>
+                    </div>
+                </li>
+
+                {% if not dog.hasHostDemand and not dog.hosted %}
+                    <li class="nav-item">
+                        <div class="divHostBtn">
+                            <a class="btn btn-sm hostBtn shadow" title="accueillir un chien"
+                            data-toggle="modal" data-target="#confirmModal"
+                            onclick="sendDemand('{{dog.idDog}}', '{{currUser.id}}', '{{dog.name}}', 'hosting');"
+                            >
+                                <i class="fas fa-home"></i> Accueillir
+                            </a>
+                        </div>
+                    </li>
+                {% endif %}
+            {% endif %}
+
+            {% if not dog.sponsored %}
+                <li class="nav-item">
+                    <div class="divSponsorBtn">
+                        <a class="btn btn-sm sponsorBtn shadow" title="parrainer un chien"
+                        data-toggle="modal" data-target="#paiementModal"
+                        >
+                            <i class="fas fa-hand-holding-heart fa-lg"></i> Parrainer
+                        </a>
+                    </div>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+{% endif %}
