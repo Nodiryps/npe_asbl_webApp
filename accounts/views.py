@@ -23,6 +23,7 @@ def signupView(req):
                         user.lastName,
                         user.birthDate
                     )
+                user.set_password(form.cleaned_data['password'])
                 user.save()
                 form.save_m2m()
             else:

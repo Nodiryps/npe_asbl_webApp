@@ -10,7 +10,7 @@
     <form id="userUpdateForm" action="{%url 'accounts:userUpdate' userId=user.id %}" method="post" enctype="multipart/form-data">
         <!--to say that req comes from our app-->
         {% csrf_token %}
-        {{form.as_p}}
+        {% include 'formRenderingLogic.html' %}
 
         <div class="text-center">
             <button class="formBtns btn btn-success" type="submit">modifier</button>
