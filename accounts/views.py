@@ -182,6 +182,8 @@ def createUser(req):
             'user': None,
             'form': form,
         })
+    else:
+        return redirect('accounts:userList')
 
 
 @login_required
@@ -201,6 +203,8 @@ def updateUser(req, userId):
             'currUser': req.user,
             'form': form
         })
+    else:
+        return redirect('accounts:userList')
 
 
 @login_required
@@ -213,6 +217,9 @@ def deleteUser(req, userId):
         return render(req, 'accounts/userDelete.html', {
             'user': user,
         })
+    else:
+        return redirect('accounts:userList')
+
 
 @login_required
 def userDetails(req, userId):

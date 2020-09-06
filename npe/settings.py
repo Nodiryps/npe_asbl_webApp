@@ -120,7 +120,19 @@ USE_L10N = True
 
 USE_TZ = True
 
+
+
 DATE_INPUT_FORMATS = ['%d/%m/%Y', ]
+
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'npe.asbl@gmail.com'
+EMAIL_HOST_PASSWORD = 'nouspoureuxasbl1'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
 
 
 # Static files (CSS, JavaScript, Images)
