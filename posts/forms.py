@@ -1,8 +1,18 @@
 from django import forms
 from .models import Post
 from dogs.models import Dog
-from accounts.models import User
 from django.utils.translation import gettext_lazy as _
+
+
+class PostUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Post
+
+        fields = ['body']
+
+        exclude = ('author', 'timestamp', 'dog', 'picture')
+
+        labels = {'body': _('Petite déscription')}
 
 
 class PostCreationForm(forms.ModelForm):
@@ -22,11 +32,6 @@ class PostCreationForm(forms.ModelForm):
             'body': _('Petite déscription'),
             'postPicture': _('Photo'),
         }
-
-
-    def getUserDogs():
-        # users = User.objects.filter()
-        return Dog.objects.filter(adopted=True)
 
 
     def __init__(self, *args, **kwargs):

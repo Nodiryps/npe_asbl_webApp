@@ -64,6 +64,12 @@
                     alt="photo de {{post.dog.name}}">
                 {% endif %}
             </div>
+
+            <div class="card-footer text-right bg-transparent">
+                <a href="{% url 'posts:postUpdate' postId=post.id %}" class="btn btn-outline-secondary btn-sm" title="éditer">
+                    <i class="fas fa-pen fa-lg"></i>
+                </a>
+            </div>
         </div>
 
         <div class="col"></div>
