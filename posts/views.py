@@ -68,6 +68,14 @@ def updatePost(req, postId):
         })
 
 
+def deletePost(req, postId):
+    post = Post.objects.get(id=postId)
+    if req.user.is_admin or req.user == post.author:
+        if req.method == 'POST':
+            post.delete()
+    return redirect('posts:postList')
+
+
 def ajaxRender(req, template, contxt):
     html = render_to_string(
         template_name=template,
