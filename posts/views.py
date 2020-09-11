@@ -55,10 +55,10 @@ def updatePost(req, postId):
     if req.user == post.author:
         if req.method == 'POST':
             form = PostUpdateForm(req.POST, instance=post)
-    #        if form.is_valid():
-    #            form.save()
-            post.body = req.POST['body']
-            post.save()
+            if form.is_valid():
+                form.save()
+    #        post.body = req.POST['body']
+     #       post.save()
             return redirect('posts:postList')
         else:
             form = PostUpdateForm(instance=post)
