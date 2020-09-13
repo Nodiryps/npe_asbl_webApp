@@ -12,7 +12,7 @@ import json
 @login_required
 def postList(req):
     if isUserAllowed(req.user):
-        posts = Post.objects.all().order_by('timestamp')
+        posts = Post.objects.all().order_by('-timestamp')
 
         return render(req, 'posts/postList.html', {
             'isUserAllowed': isUserAllowed(req.user),

@@ -111,9 +111,6 @@ function postDeleteConfirmModal(id) {
                     $('#id_post_' + id).hide()
                         .promise().then(() => {
                             $('.toast').toast('show');
-                            setTimeout(() => {
-                                window.location = '/'
-                            }, 3000);
                         });
                 }
             });
