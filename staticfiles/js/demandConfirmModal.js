@@ -51,13 +51,13 @@ function hideBtns(demandType) {
 
 function disableSendDemandBtns() {
     $('.divAdoptionBtn a').replaceWith(
-        `<a class="btn btn-sm adoptionBtn" title="adopter un chien">
+        `<a class="btn btn-sm adoptionBtn" title="adopter un chien" style="background-color: grey; color: white;">
             <i class="fas fa-heart"></i> Adopter
         </a>`
     );
 
     $('.divHostBtn a').replaceWith(
-        `<a class="btn btn-sm hostBtn" title="accueillir un chien">
+        `<a class="btn btn-sm hostBtn" title="accueillir un chien" style="background-color: grey; color: white;">
                 <i class="fas fa-home"></i> Accueillir
         </a>`
     );
