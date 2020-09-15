@@ -3,6 +3,14 @@
 {% block title %} Fiche de {{dog.get_name}} {% endblock %}
 
 {% block content  %}
+<style>
+    #recogSigns {
+        cursor: default;
+    }
+    #recogSigns:hover {
+        background-color: #6c757d;
+    }
+</style>
 
 <div class="container">
 
@@ -63,7 +71,7 @@
             <b class="detailTitles">Signes distinctifs</b>
             <p class="detailFields">
                 {% for sign in dog.get_recognition_signs %}
-                    <p class="btn btn-secondary btn-sm rounded-pill text-light">{{sign}}</p>
+                    <p id="recogSigns" class="btn btn-secondary btn-sm rounded-pill text-light">{{sign}}</p>
                 {% endfor %}
             </p>
 
