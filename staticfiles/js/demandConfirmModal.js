@@ -61,6 +61,12 @@ function disableSendDemandBtns() {
                 <i class="fas fa-home"></i> Accueillir
         </a>`
     );
+
+    $('.divSponsorBtn a').replaceWith(
+        `<a class="btn btn-sm sponsorBtn" title="parrainer un chien" style="background-color: grey; color: white;">
+                <i class="fas fa-home"></i> Parrainer
+        </a>`
+    );
 }
 
 

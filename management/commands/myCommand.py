@@ -20,10 +20,10 @@ class Command(BaseCommand):
     #    sponsors = User.objects.filter(isSponsor=True)
     #    for user in sponsors:
         send_mail(
-            'Rappel mensualité parrainage',
-            f'Bonjour Spyridon,\n{self.MSG_SPONSORS}',
+            'I DID IT!!!',
+            f'Coucou toi,\n{self.MSG_SPONSORS}',
             self.EMAIL_ADDRESS_NPE,
-            ['spyridon.theodorou@hotmail.com'],
+            ['leyayasmina@gmail.com'],
             fail_silently = False,
         )
 
