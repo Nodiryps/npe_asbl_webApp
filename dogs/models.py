@@ -29,11 +29,11 @@ class Dog(models.Model):
     hosted = models.BooleanField(default=False)
     adopted = models.BooleanField(default=False)
     sponsored = models.BooleanField(default=False)
+    chipId = models.CharField(max_length=5, unique=True)
 
     hasHostDemand = models.BooleanField(default=False)
     hasAdoptionDemand = models.BooleanField(default=False)
 
-    chipId = models.CharField(max_length=5, unique=True)
     story = models.TextField(default='', max_length=500)
     sex = models.CharField(max_length=7, choices=SEX_CHOICES, default=FEMALE, blank=False)
     size = models.CharField(max_length=8, choices=SIZE_CHOICES, default=SMALL_SIZED, blank=False)

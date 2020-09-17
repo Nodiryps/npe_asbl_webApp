@@ -1,24 +1,29 @@
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from django.core.mail import send_mail
-from accounts.models import User
+import datetime
+import sys
 
 
 class Command(BaseCommand):
     help = 'my command ...'
 
+    EMAIL_SUBJECT    = 'Liste des chiens: suivi mensuel'
+    EMAIL_BODY       = '\n\nC\'est un mail test :)\n\nXOXO'
+    EMAIL_SENDER     = 'npe.asbl@gmail.com'
+    EMAIL_RECIPIENTS = ['spyridon.theodorou@hotmail.com']
+
 
     def handle(self, *args, **options):
-    #    try:
-    #       sendMailToSponsors()
+        if datetime.datetime.today().day != 25:
+            sys.exit(0)
+
         send_mail(
-            'Rappel mensualité parrainage',
-            f'Bonjour Spyridon,\nCeci est le mail pour les marraines.\n\nBisous!',
-            'npe.asbl@gmail.com',
-            ['spyridon.theodorou@hotmail.com'],
+            self.EMAIL_SUBJECT,
+            f'Bonjour Spyridon,{self.EMAIL_BODY}',
+            self.EMAIL_SENDER,
+            self.EMAIL_RECIPIENTS,
             fail_silently = False,
         )
-    #    except Exception as exc:
-    #        CommandError(repr(exc))
 
 
 

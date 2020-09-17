@@ -7,7 +7,7 @@
 <h2 class="display-4 my-5 d-flex justify-content-center">{{title}}</h2>
 
 <div class="mb-4 d-flex justify-content-center text-center">
-    <form action="{%url 'dogs:dogCreation' %}" method="post" enctype="multipart/form-data">
+    <form id="dogCreationForm" action="{%url 'dogs:dogCreation' %}" method="post" enctype="multipart/form-data">
         <!--to say that req comes from our app-->
         {% csrf_token %}
         {{form.as_p}}
@@ -18,6 +18,5 @@
         </div>
     </form>
 </div>
-
 
 {% endblock %}

@@ -97,6 +97,7 @@ def createDog(req):
         else:
             form = DogCreationForm()
         return render(req, 'dogs/dogCreation.html', {
+            'isDogContent': True,
             'dog': None,
             'form': form,
         })

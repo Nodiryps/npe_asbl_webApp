@@ -37,7 +37,7 @@
 <script type="text/javascript">
     $(() => {
 
-        $('#id_birthDate, #id_arrivalDate').datepicker({
+        $('#userCreationForm #id_birthDate').datepicker({
             date: null, // new Date('1990/09/09'),
             format: 'dd/mm/yyyy',
             startDate: startDate(),
@@ -50,26 +50,48 @@
             yearFirst: true,
         });
 
+        $('#dogCreationForm #id_birthDate, #dogCreationForm #id_arrivalDate').datepicker({
+            date: null, // new Date('1990/09/09'),
+            format: 'dd/mm/yyyy',
+            startDate: startDateDog(),
+            endDate: endDateDog(),
+            date: null,
+            language: 'fr-FR',
+            startView: 2,
+            weekStart: 1,
+            autoHide: true,
+            autoPick: true,
+            yearFirst: true,
+        });
+
 
 
     });
 
+    function startDate() {
+        const today = new Date($.now());
+        return `31/12/${today.getFullYear() - 100}`;
+    }
 
-        function startDate() {
-            const today = new Date($.now());
-            return `31/12/${today.getFullYear() - 100}`;
-        }
+    function endDate() {
+        const today = new Date($.now());
+        return `31/12/${today.getFullYear() - 18}`;
+    }
+
+    function startDateDog() {
+        const today = new Date($.now());
+        return `31/12/${today.getFullYear() - 30}`;
+    }
+
+    function endDateDog() {
+        const today = new Date($.now());
+        return `31/12/${today.getFullYear()}`;
+    }
 
 
-        function endDate() {
-            const today = new Date($.now());
-            return `31/12/${today.getFullYear() - 19}`;
-        }
-
-
-        function goBack() {
-            window.history.back();
-        }
+    function goBack() {
+        window.history.back();
+    }
 </script>
 
 

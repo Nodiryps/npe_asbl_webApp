@@ -13,7 +13,10 @@ class DogCreationForm(ModelForm):
             'owner',
             'sponsor',
             'adopted',
+            'hosted',
             'sponsored',
+            'hasHostDemand',
+            'hasAdoptionDemand',
         )
 
         labels = {
