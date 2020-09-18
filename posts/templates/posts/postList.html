@@ -40,11 +40,13 @@
     </div>
 {% endif %}
 
-<center>
-    <a href="{% url 'posts:postCreation' %}" class="btn mb-5 shadow newPostBtn">
-        ajouter un post
-    </a>
-</center>
+{% if request.user.isOwner or request.user.isHost %}
+    <center>
+        <a href="{% url 'posts:postCreation' %}" class="btn mb-5 shadow newPostBtn">
+            ajouter un post
+        </a>
+    </center>
+{% endif %}
 
 
 <div id="postList" class="col">
@@ -65,17 +67,19 @@
                 {% endif %}
             </div>
 
-            <div class="card-footer text-right bg-transparent">
-                <a href="{% url 'posts:postUpdate' postId=post.id %}" class="btn btn-outline-secondary btn-sm" title="éditer">
-                    <i class="fas fa-pen fa-lg"></i>
-                </a>
+            {% if request.user == post.author %}
+                <div class="card-footer text-right bg-transparent">
+                    <a href="{% url 'posts:postUpdate' postId=post.id %}" class="btn btn-outline-secondary btn-sm" title="éditer">
+                        <i class="fas fa-pen fa-lg"></i>
+                    </a>
 
-                <a href="" class="btn btn-outline-secondary btn-sm" title="supprimer"
-                        data-toggle="modal" data-target="#confirmModal"
-                        onclick="postDeleteConfirmModal('{{post.id}}');">
-                    <i class="fas fa-trash fa-lg"></i>
-                </a>
-            </div>
+                    <a href="" class="btn btn-outline-secondary btn-sm" title="supprimer"
+                            data-toggle="modal" data-target="#confirmModal"
+                            onclick="postDeleteConfirmModal('{{post.id}}');">
+                        <i class="fas fa-trash fa-lg"></i>
+                    </a>
+                </div>
+            {% endif %}
         </div>
 
         <div class="col"></div>

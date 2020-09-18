@@ -2,13 +2,19 @@ function userDetailsModal(id) {
     $.get(`/accounts/userDetails/${id}/`, res => {
         const parsedUser = $.parseJSON(res);
         const user = parsedUser[0].fields;
+        const owner = user.isOwner ? 'Prop' : '-'
+        const host = user.isHost ? 'Acc' : '-'
+        const sponsor = user.isSponsor ? 'Mar' : '-'
+        const status = owner + '|' + host + '|' + sponsor
 
-        $('#detailsModal .modal-title').html('<b>Infos du membre:</b><br> ' + user.username + '');
+        $('#detailsModal .modal-title').html('<b>Informations sur:</b><br> ' + user.username + '(' + status + ')');
 
         $('#detailsModal .modal-body').css('margin', '0 auto 0 auto');
         $('#detailsModal .modal-body').css('text-align', 'center');
         $('#detailsModal .modal-title').css('text-align', 'center');
         $('#detailsModal .modal-title').css('margin', '0 auto ');
+
+
 
         $('#detailsModal .modal-body').html(
             `<b>Nom:</b><br> ${user.lastName} <br><br>

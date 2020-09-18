@@ -12,8 +12,12 @@ class Dog(models.Model):
     SMALL_SIZED = 'small'
     MEDIUM_SIZED = 'medium'
     BIG_SIZED = 'big'
+    SERO_POS = 'seropositive'
+    SERO_NEG = 'seronegative'
+    SERO_UN = 'sero-unknown'
     SEX_CHOICES = [ (FEMALE, 'Femelle'), (MALE, 'Mâle'), (OTHER_GENDER, 'Autre') ]
     SIZE_CHOICES = [ (SMALL_SIZED, 'Petit.e'), (MEDIUM_SIZED, 'Moyen.ne'), (BIG_SIZED, 'Grand.e'), ]
+    SEROLOGY_CHOICES = [ (SERO_UN, 'N.C.'), (SERO_POS, 'Positif.ve'), (SERO_NEG, 'Negatif.ve') ]
 
     idDog = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=50)

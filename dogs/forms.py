@@ -75,6 +75,11 @@ class DogUpdateForm(forms.ModelForm):
             'arrivalDate',
             'dogCoat',
             'chipId',
+            'adopted',
+            'hosted',
+            'sponsored',
+            'hasHostDemand',
+            'hasAdoptionDemand',
         )
 
         labels = {

@@ -3,7 +3,7 @@ function userDetailsModal(id) {
         const parsedUser = $.parseJSON(res);
         const user = parsedUser[0].fields;
 
-        $('#detailsModal .modal-title').html('<b>Infos du membre:</b><br> ' + user.username + '');
+        $('#detailsModal .modal-title').html('<b>Info du membre:</b><br> ' + user.username + '');
 
         $('#detailsModal .modal-body').css('margin', '0 auto 0 auto');
         $('#detailsModal .modal-body').css('text-align', 'center');
