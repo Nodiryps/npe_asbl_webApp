@@ -19,7 +19,13 @@
                 <h3 class="display-5">Domiciliations</h3>
                 <p>Vous pouvez aider les loulous en devenant membre de notre association, pour une cotisation de minimum
                     <u>12,50 euros</u> <b>par an</b>.</p>
-                <p>Vous pouvez aussi <a href="{% url 'home' %}">parrainer un chien</a> du refuge pour <u>25 euros</u> <b>par mois</b> (ou un
+                <p>Vous pouvez aussi
+                {% if request.user.is_authenticated %}
+                    <a href="{% url 'home' %}">parrainer un chien</a>
+                {% else %}
+                    <a href="{% url 'accounts:login' %}">parrainer un chien</a>
+                {% endif %}
+                    du refuge pour <u>25 euros</u> <b>par mois</b> (ou un
                     demi-parrainage de <u>12,50 euros</u> <b>par mois</b>).</p>
             </div>
 

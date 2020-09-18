@@ -2,12 +2,10 @@
 
 
 # def get_belgium_postal_codes_FR():
-#     print(':::get_belgium_postal_codes_FR:::')
 #     data = json.loads(POSTAL_CODES_BEL_FR)
 #     fields = []
 #     localities = []
 #     codes = []
-#     # print(data['postalCodes'])
 
 #     for postalCode in data['postalCodes']:
 #         fields.append(postalCode['fields'])

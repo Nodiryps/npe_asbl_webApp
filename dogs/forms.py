@@ -1,10 +1,22 @@
 from django import forms
-from django.forms import ModelForm
-from .models import Dog
+#from django.forms import ModelForm
+from django.conf import settings
 from django.utils.translation import gettext_lazy as _
+from .models import Dog
 
 
-class DogCreationForm(ModelForm):
+class DogCreationForm(forms.ModelForm):
+    birthDate = forms.DateField(
+        # input_formats=['%d/%m/%Y', ],
+        input_formats=settings.DATE_INPUT_FORMATS,
+        widget=forms.DateInput(
+            attrs={
+                'placeholder': 'jj/mm/aaaa',
+                # 'type': 'date',
+                # 'value': datetime.now().strftime('%d/%m/%Y')
+            })
+    )
+
     class Meta:
         model = Dog
         fields = '__all__'
@@ -35,6 +47,10 @@ class DogCreationForm(ModelForm):
             'story': _('Petite présentation'),
         }
 
+        widgets = {
+            'birthDate': forms.DateInput(format='%d/%m/%Y')
+        }
+
         error_messages = {
             'name': {
                 'max_length': _("Nom trop long."),
@@ -48,7 +64,7 @@ class DogCreationForm(ModelForm):
     # arrivalDate = forms.DateField(input_formats=('%d/%m/%Y', ))
 
 
-class DogUpdateForm(ModelForm):
+class DogUpdateForm(forms.ModelForm):
     class Meta:
         model = Dog
         fields = '__all__'

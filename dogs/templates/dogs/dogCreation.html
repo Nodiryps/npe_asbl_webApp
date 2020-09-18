@@ -20,3 +20,82 @@
 </div>
 
 {% endblock %}
+
+
+{% block javascript %}
+<script>
+$(()=> {
+    $('#id_dogCoat').attr('placeholder', 'séparez par une virgule');
+    $('#id_recognitionSigns').attr('placeholder', 'séparez par une virgule');
+    $('#id_chipId').attr('placeholder', '12345');
+
+    const MIN_LENGTH_DEFAULT = 2;
+    const MAX_LENGTH_DEFAULT = 60;
+
+    function isArrivalAfterBirth() {
+        const bdate = $('#id_birthDate').datepicker('getDate', true);
+        const arrdate = $('#id_arrivalDate').datepicker('getDate', true);
+        const bdateStr = [bdate.slice(6), bdate.slice(3, 5), bdate.slice(0, 2)].join('');
+        const arrdateStr = [arrdate.slice(6), arrdate.slice(3, 5), arrdate.slice(0, 2)].join('');
+        return arrdateStr - bdateStr >= 0;
+    }
+
+
+    $.validator.addMethod("isArrivalAfterBirth", (value, elem) => {
+        return isArrivalAfterBirth();
+    });
+
+
+    $('#dogCreationForm').validate({
+        rules: {
+            name: {
+                required: true,
+                minlength: MIN_LENGTH_DEFAULT,
+                maxlength: MAX_LENGTH_DEFAULT,
+            },
+            dogBreed: {
+                required: true,
+                minlength: MIN_LENGTH_DEFAULT,
+                maxlength: MAX_LENGTH_DEFAULT,
+            },
+            birthDate: {
+                required: true,
+            },
+            arrivalDate: {
+                required: true,
+                isArrivalAfterBirth: true
+            },
+            chipId: {
+                required: true,
+                minlength: 5,
+                maxlength: 5
+            },
+        },
+        messages: {
+            name: {
+                required: 'champs requis',
+                minlength: 'trop court :/',
+                maxlength: 'trop long :/'
+            },
+            dogBreed: {
+                required: 'champs requis',
+                minlength: 'trop court :/',
+                maxlength: 'trop long :/'
+            },
+            birthDate: {
+                required: 'champs requis',
+            },
+            arrivalDate: {
+                required: 'champs requis',
+                isArrivalAfterBirth: 'ne peut pas arriver avant de naître... ;)'
+            },
+            chipId: {
+                required: 'champs requis',
+                minlength: 'trop court :/',
+                maxlength: 'trop long :/'
+            },
+        }
+    });
+});
+</script>
+{% endblock %}

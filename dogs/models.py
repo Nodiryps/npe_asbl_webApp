@@ -18,7 +18,7 @@ class Dog(models.Model):
     idDog = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=50)
     dogBreed = models.CharField(max_length=50)
-    birthDate = models.DateField()
+    birthDate = models.DateField(null=True)
     arrivalDate = models.DateField()
     dogCoat = models.CharField(max_length=50)
     recognitionSigns = models.CharField(max_length=250)

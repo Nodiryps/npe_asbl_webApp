@@ -14,7 +14,7 @@ class Command(BaseCommand):
 
 
     def handle(self, *args, **options):
-        if datetime.datetime.today().day != 25:
+        if datetime.datetime.today().day != 18:
             sys.exit(0)
 
         send_mail(
